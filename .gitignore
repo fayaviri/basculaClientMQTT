@@ -1,0 +1,56 @@
+# === Visual Studio ===
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# === Build Folders ===
+[Bb]in/
+[Oo]bj/
+*.exe
+*.dll
+*.pdb
+*.cache
+*.log
+
+# === Deployment Files ===
+publish/
+*.manifest
+*.application
+
+# === NuGet Packages ===
+packages/
+*.nupkg
+*.snupkg
+project.lock.json
+project.fragment.lock.json
+
+# === Crystal Reports ===
+*.rpt.cache
+*.rptcache
+CrystalReportTemp/
+
+# === Temporary Files ===
+*.tmp
+*.bak
+*.orig
+*.dbmdl
+*.localhistory/
+
+# === Designer Backup Files ===
+*.designer.vb~
+
+# === Windows System Files ===
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# === Source Control Files ===
+*.vspscc
+*.vssscc
+
+# === Setup Projects (.vdproj) Temporaries ===
+*.vdproj.*
+Release/
+Debug/
