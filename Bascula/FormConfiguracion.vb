@@ -7,7 +7,7 @@ Public Class FormConfiguracion
         cmbPuertos.Items.AddRange(SerialPort.GetPortNames())
         cmbParidad.Items.AddRange([Enum].GetNames(GetType(Parity)))
         cmbStopBits.Items.AddRange([Enum].GetNames(GetType(StopBits)))
-        cmbTopic.Items.AddRange(New String() {"topic/peso", "topic/peso/secundario"})
+        cmbBalanza.Items.AddRange(New String() {"balanza1", "balanza2"})
 
         ' Valores por defecto
         txtBaud.Text = "9600"
@@ -15,7 +15,7 @@ Public Class FormConfiguracion
         cmbParidad.SelectedItem = "None"
         cmbStopBits.SelectedItem = "One"
         If cmbPuertos.Items.Count > 0 Then cmbPuertos.SelectedIndex = 0
-        cmbTopic.SelectedIndex = 0 ' valor por defecto
+        cmbBalanza.SelectedIndex = 0 ' valor por defecto
 
         ' Cargar configuración si existe
         If File.Exists("config_serial.txt") Then
@@ -41,11 +41,11 @@ Public Class FormConfiguracion
                         cmbStopBits.SelectedItem = config(4)
                     End If
 
-                    If cmbTopic.Items.Contains(config(5)) Then
-                        cmbTopic.SelectedItem = config(5)
+                    If cmbBalanza.Items.Contains(config(5)) Then
+                        cmbBalanza.SelectedItem = config(5)
                     Else
-                        cmbTopic.Items.Add(config(5))
-                        cmbTopic.SelectedItem = config(5)
+                        cmbBalanza.Items.Add(config(5))
+                        cmbBalanza.SelectedItem = config(5)
                     End If
                 End If
             Catch ex As Exception
@@ -62,7 +62,7 @@ Public Class FormConfiguracion
                 txtDataBits.Text,
                 cmbParidad.SelectedItem.ToString(),
                 cmbStopBits.SelectedItem.ToString(),
-                cmbTopic.SelectedItem.ToString()
+                cmbBalanza.SelectedItem.ToString()
             }
             File.WriteAllLines("config_serial.txt", configLines)
             MessageBox.Show("Configuración guardada correctamente.")

@@ -33,7 +33,7 @@ Partial Class FormConfiguracion
         Me.txtDataBits = New System.Windows.Forms.TextBox()
         Me.txtBaud = New System.Windows.Forms.TextBox()
         Me.cmbPuertos = New System.Windows.Forms.ComboBox()
-        Me.cmbTopic = New System.Windows.Forms.ComboBox()
+        Me.cmbBalanza = New System.Windows.Forms.ComboBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.SuspendLayout()
         '
@@ -130,22 +130,22 @@ Partial Class FormConfiguracion
         Me.cmbPuertos.Size = New System.Drawing.Size(121, 21)
         Me.cmbPuertos.TabIndex = 28
         '
-        'cmbTopic
+        'cmbBalanza
         '
-        Me.cmbTopic.FormattingEnabled = True
-        Me.cmbTopic.Location = New System.Drawing.Point(149, 156)
-        Me.cmbTopic.Name = "cmbTopic"
-        Me.cmbTopic.Size = New System.Drawing.Size(121, 21)
-        Me.cmbTopic.TabIndex = 39
+        Me.cmbBalanza.FormattingEnabled = True
+        Me.cmbBalanza.Location = New System.Drawing.Point(149, 156)
+        Me.cmbBalanza.Name = "cmbBalanza"
+        Me.cmbBalanza.Size = New System.Drawing.Size(121, 21)
+        Me.cmbBalanza.TabIndex = 39
         '
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(106, 159)
+        Me.Label1.Location = New System.Drawing.Point(95, 159)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(37, 13)
+        Me.Label1.Size = New System.Drawing.Size(48, 13)
         Me.Label1.TabIndex = 40
-        Me.Label1.Text = "Topic:"
+        Me.Label1.Text = "Balanza:"
         '
         'FormConfiguracion
         '
@@ -153,7 +153,7 @@ Partial Class FormConfiguracion
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(375, 245)
         Me.Controls.Add(Me.Label1)
-        Me.Controls.Add(Me.cmbTopic)
+        Me.Controls.Add(Me.cmbBalanza)
         Me.Controls.Add(Me.Label6)
         Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.Label4)
@@ -184,6 +184,6 @@ Partial Class FormConfiguracion
     Friend WithEvents txtDataBits As TextBox
     Friend WithEvents txtBaud As TextBox
     Friend WithEvents cmbPuertos As ComboBox
-    Friend WithEvents cmbTopic As ComboBox
+    Friend WithEvents cmbBalanza As ComboBox
     Friend WithEvents Label1 As Label
 End Class
