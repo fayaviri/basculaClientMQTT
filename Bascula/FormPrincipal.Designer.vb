@@ -36,6 +36,7 @@ Partial Class FormPrincipal
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.TBorrar = New System.Windows.Forms.Timer(Me.components)
+        Me.btnTestMqtt = New System.Windows.Forms.Button()
         Me.MenuStrip1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
@@ -132,12 +133,22 @@ Partial Class FormPrincipal
         '
         Me.TBorrar.Interval = 4000
         '
+        'btnTestMqtt
+        '
+        Me.btnTestMqtt.Location = New System.Drawing.Point(124, 272)
+        Me.btnTestMqtt.Name = "btnTestMqtt"
+        Me.btnTestMqtt.Size = New System.Drawing.Size(290, 23)
+        Me.btnTestMqtt.TabIndex = 32
+        Me.btnTestMqtt.Text = "Test MQTT"
+        Me.btnTestMqtt.UseVisualStyleBackColor = True
+        '
         'FormPrincipal
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(532, 337)
+        Me.Controls.Add(Me.btnTestMqtt)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.TxtPeso)
         Me.Controls.Add(Me.GroupBox1)
@@ -167,4 +178,5 @@ Partial Class FormPrincipal
     Friend WithEvents GroupBox1 As GroupBox
     Friend WithEvents Label1 As Label
     Friend WithEvents TBorrar As Timer
+    Friend WithEvents btnTestMqtt As Button
 End Class
