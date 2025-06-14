@@ -35,6 +35,8 @@ Partial Class FormConfiguracion
         Me.cmbPuertos = New System.Windows.Forms.ComboBox()
         Me.cmbBalanza = New System.Windows.Forms.ComboBox()
         Me.Label1 = New System.Windows.Forms.Label()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.txtIp = New System.Windows.Forms.TextBox()
         Me.SuspendLayout()
         '
         'Label6
@@ -84,7 +86,7 @@ Partial Class FormConfiguracion
         '
         'BtnGuardar
         '
-        Me.BtnGuardar.Location = New System.Drawing.Point(149, 200)
+        Me.BtnGuardar.Location = New System.Drawing.Point(149, 223)
         Me.BtnGuardar.Name = "BtnGuardar"
         Me.BtnGuardar.Size = New System.Drawing.Size(121, 23)
         Me.BtnGuardar.TabIndex = 33
@@ -147,11 +149,29 @@ Partial Class FormConfiguracion
         Me.Label1.TabIndex = 40
         Me.Label1.Text = "Balanza:"
         '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Location = New System.Drawing.Point(115, 185)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(19, 13)
+        Me.Label7.TabIndex = 41
+        Me.Label7.Text = "Ip:"
+        '
+        'txtIp
+        '
+        Me.txtIp.Location = New System.Drawing.Point(149, 182)
+        Me.txtIp.Name = "txtIp"
+        Me.txtIp.Size = New System.Drawing.Size(121, 20)
+        Me.txtIp.TabIndex = 42
+        '
         'FormConfiguracion
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(375, 245)
+        Me.ClientSize = New System.Drawing.Size(375, 275)
+        Me.Controls.Add(Me.txtIp)
+        Me.Controls.Add(Me.Label7)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.cmbBalanza)
         Me.Controls.Add(Me.Label6)
@@ -186,4 +206,6 @@ Partial Class FormConfiguracion
     Friend WithEvents cmbPuertos As ComboBox
     Friend WithEvents cmbBalanza As ComboBox
     Friend WithEvents Label1 As Label
+    Friend WithEvents Label7 As Label
+    Friend WithEvents txtIp As TextBox
 End Class

@@ -54,7 +54,7 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>bascula.ico</ApplicationIcon>
+    <ApplicationIcon>iconobascula.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FlashControlV71, Version=1.0.3187.32366, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
@@ -180,6 +180,7 @@
     <None Include="Resources\BaseDato.png" />
     <Content Include="bascula.ico" />
     <Content Include="icono-balanza.ico" />
+    <Content Include="iconobascula.ico" />
     <Content Include="Resources\btn_search_over_BIDI.png" />
     <Content Include="Resources\btn_search_ove_BIDI.png" />
     <None Include="Resources\chart_bar.png" />

@@ -23,6 +23,7 @@ Partial Class FormPrincipal
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormPrincipal))
         Me.puertoserial = New System.IO.Ports.SerialPort(Me.components)
         Me.TLevantarConexion = New System.Windows.Forms.Timer(Me.components)
         Me.Talertar = New System.Windows.Forms.Timer(Me.components)
@@ -37,8 +38,14 @@ Partial Class FormPrincipal
         Me.Label1 = New System.Windows.Forms.Label()
         Me.TBorrar = New System.Windows.Forms.Timer(Me.components)
         Me.btnTestMqtt = New System.Windows.Forms.Button()
+        Me.NotifyIcon1 = New System.Windows.Forms.NotifyIcon(Me.components)
+        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.SalirToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.btnPruebaBalanza = New System.Windows.Forms.Button()
+        Me.TReintentarMQTT = New System.Windows.Forms.Timer(Me.components)
         Me.MenuStrip1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
+        Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'puertoserial
@@ -142,12 +149,44 @@ Partial Class FormPrincipal
         Me.btnTestMqtt.Text = "Test MQTT"
         Me.btnTestMqtt.UseVisualStyleBackColor = True
         '
+        'NotifyIcon1
+        '
+        Me.NotifyIcon1.ContextMenuStrip = Me.ContextMenuStrip1
+        Me.NotifyIcon1.Icon = CType(resources.GetObject("NotifyIcon1.Icon"), System.Drawing.Icon)
+        Me.NotifyIcon1.Text = "Balanza"
+        Me.NotifyIcon1.Visible = True
+        '
+        'ContextMenuStrip1
+        '
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SalirToolStripMenuItem})
+        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(97, 26)
+        '
+        'SalirToolStripMenuItem
+        '
+        Me.SalirToolStripMenuItem.Name = "SalirToolStripMenuItem"
+        Me.SalirToolStripMenuItem.Size = New System.Drawing.Size(96, 22)
+        Me.SalirToolStripMenuItem.Text = "Salir"
+        '
+        'btnPruebaBalanza
+        '
+        Me.btnPruebaBalanza.Location = New System.Drawing.Point(124, 301)
+        Me.btnPruebaBalanza.Name = "btnPruebaBalanza"
+        Me.btnPruebaBalanza.Size = New System.Drawing.Size(290, 23)
+        Me.btnPruebaBalanza.TabIndex = 34
+        Me.btnPruebaBalanza.Text = "Test Balanza"
+        Me.btnPruebaBalanza.UseVisualStyleBackColor = True
+        '
+        'TReintentarMQTT
+        '
+        '
         'FormPrincipal
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(532, 337)
+        Me.ClientSize = New System.Drawing.Size(532, 363)
+        Me.Controls.Add(Me.btnPruebaBalanza)
         Me.Controls.Add(Me.btnTestMqtt)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.TxtPeso)
@@ -161,6 +200,7 @@ Partial Class FormPrincipal
         Me.MenuStrip1.PerformLayout()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        Me.ContextMenuStrip1.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -179,4 +219,9 @@ Partial Class FormPrincipal
     Friend WithEvents Label1 As Label
     Friend WithEvents TBorrar As Timer
     Friend WithEvents btnTestMqtt As Button
+    Friend WithEvents NotifyIcon1 As NotifyIcon
+    Friend WithEvents ContextMenuStrip1 As ContextMenuStrip
+    Friend WithEvents SalirToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents btnPruebaBalanza As Button
+    Friend WithEvents TReintentarMQTT As Timer
 End Class

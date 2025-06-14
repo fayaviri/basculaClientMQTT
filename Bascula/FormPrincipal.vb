@@ -10,7 +10,10 @@ Public Class FormPrincipal
     ' MQTT variables
     Private mqttClient As IMqttClient
     Private mqttOptions As IMqttClientOptions
-    Private balanzaNombre As String = "balanza1" ' Valor por defecto
+    Private balanzaNombre As String = "Balanza # 1" ' Valor por defecto
+    Private Ip As String = ""
+    Private isReconnectingMQTT As Boolean = False
+
 
     Public ReadOnly Property devolverPeso() As String
         Get
@@ -18,7 +21,7 @@ Public Class FormPrincipal
         End Get
     End Property
 
-#Region "SERIAL PORTS"
+
 
     Private ComBuffer As Byte()
     Private Delegate Function UpdateFormDelegate() As Task
@@ -32,6 +35,10 @@ Public Class FormPrincipal
         TraeConfiguracion()
         TLevantarConexion.Interval = 3000
         TLevantarConexion.Enabled = True
+
+        TReintentarMQTT.Interval = 5000 ' cada 5 segundos
+        TReintentarMQTT.Enabled = True
+
         Await ConectarClienteMQTT()
     End Sub
 
@@ -44,6 +51,7 @@ Public Class FormPrincipal
                 puertoserial.DataBits = Integer.Parse(config(2))
                 puertoserial.Parity = [Enum].Parse(GetType(IO.Ports.Parity), config(3))
                 puertoserial.StopBits = [Enum].Parse(GetType(IO.Ports.StopBits), config(4))
+                Ip = config(6)
 
                 If config.Length >= 6 Then
                     balanzaNombre = config(5).Trim().ToLower()
@@ -128,16 +136,18 @@ Public Class FormPrincipal
         End If
     End Function
 
-#End Region
-
     Private Async Function ConectarClienteMQTT() As Task
         Try
             Dim factory = New MqttFactory()
             mqttClient = factory.CreateMqttClient()
 
             mqttOptions = New MqttClientOptionsBuilder() _
-                .WithTcpServer("192.168.0.201", 1883) _
+                .WithTcpServer(Ip, 1883) _
                 .Build()
+
+            'mqttOptions = New MqttClientOptionsBuilder() _
+            '    .WithTcpServer("192.168.0.201", 1883) _
+            '    .Build()
 
             Await mqttClient.ConnectAsync(mqttOptions)
             '192.168.0.201
@@ -233,9 +243,10 @@ Public Class FormPrincipal
     Private Async Sub btnTestMqtt_Click(sender As Object, e As EventArgs) Handles btnTestMqtt.Click
 
         If mqttClient IsNot Nothing AndAlso mqttClient.IsConnected Then
-            Dim pesoPrueba As String = "999"
-            Dim jsonPayload As String = $"{{ ""balanza"": ""{balanzaNombre}"", ""peso"": ""{pesoPrueba}"" }}"
 
+            Dim rnd As New Random()
+            Dim pesoPrueba As String = rnd.Next(22510, 31501).ToString()
+            Dim jsonPayload As String = $"{{ ""balanza"": ""{balanzaNombre}"", ""peso"": ""{pesoPrueba}"" }}"
             Dim mensaje = New MqttApplicationMessageBuilder() _
                 .WithTopic("bascula/peso") _
                 .WithPayload(jsonPayload) _
@@ -243,9 +254,78 @@ Public Class FormPrincipal
                 .Build()
 
             Await mqttClient.PublishAsync(mensaje)
-            MessageBox.Show($"Mensaje de prueba enviado: {jsonPayload}", "✅ MQTT Test")
+            ' MessageBox.Show($"Mensaje de prueba enviado: {jsonPayload}", "✅ MQTT Test")
         Else
             MessageBox.Show("❌ MQTT no está conectado.", "Error")
+        End If
+    End Sub
+
+
+    Private Async Sub btnPruebaBalanza_Click(sender As Object, e As EventArgs) Handles btnPruebaBalanza.Click
+        If mqttClient IsNot Nothing AndAlso mqttClient.IsConnected Then
+
+            Dim rnd As New Random()
+            Dim pesoPrueba As String = rnd.Next(22510, 31501).ToString()
+
+            ' Alternar aleatoriamente entre Balanza # 1 y Balanza # 2
+            Dim balanzaNombre As String = If(rnd.Next(0, 2) = 0, "Balanza # 1", "Balanza # 2")
+
+            Dim jsonPayload As String = $"{{ ""balanza"": ""{balanzaNombre}"", ""peso"": ""{pesoPrueba}"" }}"
+
+            Dim mensaje = New MqttApplicationMessageBuilder() _
+            .WithTopic("bascula/peso") _
+            .WithPayload(jsonPayload) _
+            .WithAtLeastOnceQoS _
+            .Build()
+
+            Await mqttClient.PublishAsync(mensaje)
+
+        Else
+            MessageBox.Show("❌ MQTT no está conectado.", "Error")
+        End If
+    End Sub
+
+
+    Private Sub FormPrincipal_Resize(sender As Object, e As EventArgs) Handles MyBase.Resize
+        If Me.WindowState = FormWindowState.Minimized Then
+            Me.Hide()
+            NotifyIcon1.Visible = True
+            NotifyIcon1.BalloonTipTitle = "Servidor MQTT"
+            NotifyIcon1.BalloonTipText = "El servidor sigue en ejecución en segundo plano."
+            NotifyIcon1.ShowBalloonTip(1000)
+        End If
+    End Sub
+
+    Private Sub NotifyIcon1_DoubleClick(sender As Object, e As EventArgs) Handles NotifyIcon1.DoubleClick
+        Me.Show()
+        Me.WindowState = FormWindowState.Normal
+    End Sub
+
+    Private Sub SalirToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SalirToolStripMenuItem.Click
+        NotifyIcon1.Visible = False
+        Application.Exit()
+    End Sub
+
+    Private Sub FormPrincipal_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        If e.CloseReason = CloseReason.UserClosing Then
+            e.Cancel = True ' 🚫 Cancelar el cierre
+            Me.Hide()
+            NotifyIcon1.BalloonTipTitle = "Servidor MQTT"
+            NotifyIcon1.BalloonTipText = "Sigue ejecutándose en segundo plano. Click derecho -> Salir para cerrar."
+            NotifyIcon1.ShowBalloonTip(1000)
+        End If
+    End Sub
+
+    Private Async Sub TReintentarMQTT_Tick(sender As Object, e As EventArgs) Handles TReintentarMQTT.Tick
+        If mqttClient Is Nothing OrElse Not mqttClient.IsConnected Then
+            If Not isReconnectingMQTT Then
+                isReconnectingMQTT = True
+                Console.WriteLine("🔁 Intentando reconexión MQTT desde el Timer...")
+                Await ConectarClienteMQTT()
+                isReconnectingMQTT = False
+            Else
+                Console.WriteLine("⏳ Ya se está intentando reconectar, esperando...")
+            End If
         End If
     End Sub
 
